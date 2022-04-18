@@ -2,7 +2,7 @@ import unittest
 from unittest import TestCase
 
 from main import reserveList, bookerineManagement_iterativo, bookerineManagement_recursivo
-
+# El tipus del parametre "reserves" es "list"
 
 class Test(TestCase):
     def test_bookerine_management_1_reserves_iterativo(self):

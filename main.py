@@ -33,11 +33,32 @@ def bookerineManagement_iterativo(reserves):
 
     idTable = -1
 
-    #Your code here...
-
     print (reserves)
 
+    while len(reserves) > 0:
+        actual_book = int(tuple(reserves[0])[1])
+        left_values, right_values = classifyValues(actual_book, reserves)
+
+        if len(left_values) + idTable == int(actual_book):
+            reserves = right_values 
+            idTable = int(actual_book) + 1       
+        else:
+            reserves = left_values 
+            idTable = int(actual_book)    
+
     return idTable
+
+def classifyValues(booked_table, reserves):
+    left_values = []
+    right_values = []
+
+    for id in reserves:
+        if int(id[1]) < booked_table:
+            left_values.append(int(id[1]))
+        else:
+            right_values.append(int(id[1]))
+
+    return left_values, right_values
 
 def bookerineManagement_recursivo(reserves):
 
