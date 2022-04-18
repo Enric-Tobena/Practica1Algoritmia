@@ -5,6 +5,7 @@ from main import reserveList, bookerineManagement_iterativo, bookerineManagement
 # El tipus del parametre "reserves" es "list"
 
 class Test(TestCase):
+    
     def test_bookerine_management_1_reserves_iterativo(self):
 
         reserves, solution = reserveList(1)
@@ -42,7 +43,8 @@ class Test(TestCase):
             reserves, solution = reserveList(step)
             idTable = bookerineManagement_iterativo(reserves)
             self.assertEqual(idTable, solution)
-    """
+"""    
+    
     def test_bookerine_management_1_reserves_recursivo(self):
 
         reserves, solution = reserveList(1)

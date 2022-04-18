@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 import sys
 import matplotlib.pyplot as plt
 from random import sample, choice, shuffle
@@ -30,54 +31,52 @@ def reserveList (number_reserves):
 
 
 def bookerineManagement_iterativo(reserves):
-
     idTable = -1
-
     print (reserves)
 
-    while len(reserves) > 0:
-        left_values, right_values = classifyValues(int(reserves[0][1]), reserves)
-
-        print("LEFT_LIST: ", left_values, len(left_values))  
-        print("RIGHT_LIST: ",right_values, len(right_values)) 
-
-        if len(left_values) + idTable == int(reserves[0][1]):
-            idTable = int(reserves[0][1]) + 1  
-            reserves = right_values 
-            print("LEFT: ", len(left_values))
-        else:
-            idTable = int(reserves[0][1])    
-            reserves = left_values 
-            print("RIGHT: ", len(right_values))
-                         
+    if len(reserves) > 0:
+        ordered_tables = classifyValues(reserves)        
+        
+        ordered_tables.sort()
+        for i in range (0, len(ordered_tables)):
+            idTable = i
+            if idTable != ordered_tables[i]:
+                return idTable            
+        
+        return idTable + 1
 
     return idTable
 
-def classifyValues(booked_table, reserves):
-    left_values = []
-    right_values = []
 
-    i = 0
-    while i < len(reserves):
-        print(reserves[i][1])
-        if int(reserves[i][1]) < booked_table:
-            left_values.append(reserves[i][1])
-        else:
-            right_values.append(reserves[i][1])
-        
+def classifyValues(reserves):
+    ordered_tables = []
+
+    for i in range(0, len(reserves)):   
+        ordered_tables.append(int(reserves[i][1]))        
         i += 1
 
-    return left_values, right_values
+    return ordered_tables
 
-def bookerineManagement_recursivo(reserves):
+def bookerineManagement_recursivo(reserves, low):
 
     idTable = -1
+    if reserves == []:
+        return idTable
+    left, right = partition(reserves[0], reserves)
+    if len(left) + low == reserves[0]:
+        return bookerineManagement_recursivo(right, reserves[0] + 1)
+    else:
+        return bookerineManagement_recursivo(left, reserves[0])
 
-    #Your code here...
 
-    print (reserves)
+def partition( x, l, left=[], right=[]) :
+    if l == [] :
+        return left , right 
 
-    return idTable
+    if y < x:
+        return partition( x, l[1:], [y] + left, right ) 
+    else:
+        return partition( x, l[1:], left, [y] + right )
 
 
 def calcular_temps_iterativo():
