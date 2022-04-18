@@ -42,7 +42,7 @@ class Test(TestCase):
             reserves, solution = reserveList(step)
             idTable = bookerineManagement_iterativo(reserves)
             self.assertEqual(idTable, solution)
-
+    """
     def test_bookerine_management_1_reserves_recursivo(self):
 
         reserves, solution = reserveList(1)
@@ -80,6 +80,6 @@ class Test(TestCase):
             reserves, solution = reserveList(step)
             idTable = bookerineManagement_recursivo(reserves)
             self.assertEqual(idTable, solution)
-
+    """
 if __name__ == '__main__':
     unittest.main()

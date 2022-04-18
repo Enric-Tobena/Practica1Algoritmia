@@ -36,15 +36,20 @@ def bookerineManagement_iterativo(reserves):
     print (reserves)
 
     while len(reserves) > 0:
-        actual_book = int(tuple(reserves[0])[1])
-        left_values, right_values = classifyValues(actual_book, reserves)
+        left_values, right_values = classifyValues(int(reserves[0][1]), reserves)
 
-        if len(left_values) + idTable == int(actual_book):
+        print("LEFT_LIST: ", left_values, len(left_values))  
+        print("RIGHT_LIST: ",right_values, len(right_values)) 
+
+        if len(left_values) + idTable == int(reserves[0][1]):
+            idTable = int(reserves[0][1]) + 1  
             reserves = right_values 
-            idTable = int(actual_book) + 1       
+            print("LEFT: ", len(left_values))
         else:
+            idTable = int(reserves[0][1])    
             reserves = left_values 
-            idTable = int(actual_book)    
+            print("RIGHT: ", len(right_values))
+                         
 
     return idTable
 
@@ -52,11 +57,15 @@ def classifyValues(booked_table, reserves):
     left_values = []
     right_values = []
 
-    for id in reserves:
-        if int(id[1]) < booked_table:
-            left_values.append(int(id[1]))
+    i = 0
+    while i < len(reserves):
+        print(reserves[i][1])
+        if int(reserves[i][1]) < booked_table:
+            left_values.append(reserves[i][1])
         else:
-            right_values.append(int(id[1]))
+            right_values.append(reserves[i][1])
+        
+        i += 1
 
     return left_values, right_values
 
