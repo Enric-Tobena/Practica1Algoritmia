@@ -32,12 +32,9 @@ def reserveList (number_reserves):
 
 def bookerineManagement_iterativo(reserves):
     idTable = -1
-    print (reserves)
 
     if len(reserves) > 0:
-        ordered_tables = classifyValues(reserves)        
-        
-        ordered_tables.sort()
+        ordered_tables = classifyValues(reserves)      
         for i in range (0, len(ordered_tables)):
             idTable = i
             if idTable != ordered_tables[i]:
@@ -55,28 +52,20 @@ def classifyValues(reserves):
         ordered_tables.append(int(reserves[i][1]))        
         i += 1
 
+    ordered_tables.sort()
     return ordered_tables
+    
 
-def bookerineManagement_recursivo(reserves, low):
+def bookerineManagement_recursivo(reserves):
+    ordered_tables = classifyValues(reserves)
+    return checkEmptyTables(ordered_tables, 0)
+    
 
-    idTable = -1
-    if reserves == []:
+def checkEmptyTables(ordered_tables, idTable):
+    if not ordered_tables or idTable != ordered_tables[0]:
         return idTable
-    left, right = partition(reserves[0], reserves)
-    if len(left) + low == reserves[0]:
-        return bookerineManagement_recursivo(right, reserves[0] + 1)
     else:
-        return bookerineManagement_recursivo(left, reserves[0])
-
-
-def partition( x, l, left=[], right=[]) :
-    if l == [] :
-        return left , right 
-
-    if y < x:
-        return partition( x, l[1:], [y] + left, right ) 
-    else:
-        return partition( x, l[1:], left, [y] + right )
+        return checkEmptyTables(ordered_tables[1:], idTable + 1)
 
 
 def calcular_temps_iterativo():
