@@ -31,42 +31,53 @@ def reserveList (number_reserves):
 
 
 def bookerineManagement_iterativo(reserves):
-    idTable = -1
+    max_idTable = maxIdTable_iterativo(reserves)
 
-    if len(reserves) > 0:
-        ordered_tables = classifyValues(reserves)      
-        for i in range (0, len(ordered_tables)):
-            idTable = i
-            if idTable != ordered_tables[i]:
-                return idTable            
-        
-        return idTable + 1
+    tables = ["FREE"] * (max_idTable + 1)
+    ordered_tables = classifyValues(reserves, tables)
 
-    return idTable
+    return checkEmptyTables_iterativo(ordered_tables)
 
-
-def classifyValues(reserves):
-    ordered_tables = []
-
-    for i in range(0, len(reserves)):   
-        ordered_tables.append(int(reserves[i][1]))        
-        i += 1
-
-    ordered_tables.sort()
-    return ordered_tables
+def maxIdTable_iterativo(reserves): 
+    max_idTable = -1
+    for i in range(0, len(reserves)):
+        if int(reserves[i][1]) > max_idTable:
+            max_idTable = int(reserves[i][1])
     
+    return max_idTable
+ 
+def classifyValues(reserves, tables):
+    for i in range(0, len(reserves)):
+        tables[int(reserves[i][1])] = "OCCUPIED"
 
-def bookerineManagement_recursivo(reserves):
-    ordered_tables = classifyValues(reserves)
-    return checkEmptyTables(ordered_tables, 0)
+    return tables
+
+def checkEmptyTables_iterativo(ordered_tables):
+    for i in range(0, len(ordered_tables)):
+        if ordered_tables[i] == "FREE":
+            return i
     
+    return len(ordered_tables)
 
-def checkEmptyTables(ordered_tables, idTable):
-    if not ordered_tables or idTable != ordered_tables[0]:
+def bookerineManagement_recursivo(reserves):   
+    max_idTable = maxIdTable_recursivo(reserves)
+
+    tables = ["FREE"] * (max_idTable + 1)
+    ordered_tables = classifyValues(reserves, tables)
+
+    return checkEmptyTables_recursivo(ordered_tables, 0)
+
+def maxIdTable_recursivo(reserves):
+    if not reserves:
+        return -1
+    else:
+        return max(int(reserves[0][1]), maxIdTable_recursivo(reserves[1:]))
+
+def checkEmptyTables_recursivo(ordered_tables, idTable):
+    if not ordered_tables or ordered_tables[0] == "FREE":
         return idTable
     else:
-        return checkEmptyTables(ordered_tables[1:], idTable + 1)
-
+        return checkEmptyTables_recursivo(ordered_tables[1:], idTable + 1)
 
 def calcular_temps_iterativo():
     import timeit
@@ -119,3 +130,5 @@ if __name__ == '__main__':
         print ('Solucion Correcta')
     else:
         print ('Solucion Incorrecta')
+
+    
